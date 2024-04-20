@@ -1,0 +1,7 @@
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\SpawnPng.exe
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\SpawnPng.dll
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\SpawnPng.deps.json
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\SpawnPng.runtimeconfig.json
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\SpawnPng.pdb
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\Microsoft.Win32.SystemEvents.dll
+D:\Data\Project\Tool\SpawnPng\bin\Release\net8.0\win-x64\publish\System.Drawing.Common.dll
