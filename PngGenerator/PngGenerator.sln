@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpawnPng", "SpawnPng.csproj", "{CC6C1ABF-16FD-46A3-8E62-FA7916DA704B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PngGenerator", "PngGenerator.csproj", "{08B2145F-DAC4-46F5-A944-318F2C587871}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC6C1ABF-16FD-46A3-8E62-FA7916DA704B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC6C1ABF-16FD-46A3-8E62-FA7916DA704B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC6C1ABF-16FD-46A3-8E62-FA7916DA704B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC6C1ABF-16FD-46A3-8E62-FA7916DA704B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B2145F-DAC4-46F5-A944-318F2C587871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B2145F-DAC4-46F5-A944-318F2C587871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B2145F-DAC4-46F5-A944-318F2C587871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B2145F-DAC4-46F5-A944-318F2C587871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {605BCA26-EB9A-49CD-B4D0-E502D46A4E20}
+		SolutionGuid = {01501CCE-23DF-4DBB-A175-C452BAC7FF0F}
 	EndGlobalSection
 EndGlobal

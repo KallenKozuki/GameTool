@@ -1,11 +1,11 @@
 ﻿/*
-    文件名：Program.cs
+    文件名：Main.cs
     作者：毕宿五
     创建日期：2024/04/20
     功能：简易png生成器，可以自定义生成png图片的大小、形状、颜色、文本等，主要用于生成UI界面的临时资源
+    修改日志：2024/04/23 => 1.增加批量生成功能 2.增加了多种颜色 3.文本防溢出处理
 */
 
-using System;
 using System.Drawing;
 using System.Text;
 
@@ -14,14 +14,49 @@ public class Program
 {
     public static void Main()
     {
+        Console.InputEncoding = Encoding.Unicode;
+        string? input = string.Empty;
+
+        // 是否批量生成
+        Console.WriteLine("是否批量生成？(默认否):(Y/N)");
+        input = Console.ReadLine();
+
+        if (input?.ToUpper() == "Y")
+        {
+            // 批量生成
+            Console.WriteLine("请输入生成数量(默认1):");
+            input = Console.ReadLine();
+            int count = int.TryParse(input, out int num) ? num : 1;
+            PngData data = GetPngData();
+            string baseText = data.Text;
+            for (int i = 0; i < count; i++)
+            {
+                data.Text = $"{baseText}{i}";
+                SpawnPng.PngGenerator(data);
+            }
+        }
+        else
+        {
+            // 单个生成
+            SpawnPng.PngGenerator(GetPngData());
+        }
+
+        Console.WriteLine("按任意键退出...");
+        Console.ReadKey();
+    }
+
+    /// <summary>
+    /// 依照控制台输入获取png数据
+    /// </summary>
+    /// <returns>png数据</returns>
+    public static PngData GetPngData()
+    {
         string? input = string.Empty;
         PngData data = new PngData();
-        Console.InputEncoding = Encoding.Unicode;
-
         Console.WriteLine("请按下述提示输入png的基础信息, 输入错误将使用默认值。");
 
         // 1.选择形状
-        Console.WriteLine("请选择形状(默认矩形):1.矩形 2.圆形");
+        Console.WriteLine("请选择形状(默认矩形):1-矩形 2-圆形");
         input = Console.ReadLine();
         data.IsCircle = input switch
         {
@@ -41,28 +76,36 @@ public class Program
         data.height = int.TryParse(input, out int height) ? height : 120;
 
         // 4.选择图形颜色
-        Console.WriteLine("请选择图形颜色(默认黑色):1.黑色 2.红色 3.绿色 4.蓝色 5.白色");
+        Console.WriteLine("请选择图形颜色(默认黑):1-黑 2-白 3-红 4-绿 5-蓝 6-黄 7-粉 8-灰 9-橙");
         input = Console.ReadLine();
         data.BgColor = input switch
         {
             "1" => Brushes.Black,
-            "2" => Brushes.Red,
-            "3" => Brushes.Green,
-            "4" => Brushes.Blue,
-            "5" => Brushes.White,
+            "2" => Brushes.White,
+            "3" => Brushes.Red,
+            "4" => Brushes.Green,
+            "5" => Brushes.Blue,
+            "6" => Brushes.Yellow,
+            "7" => Brushes.Pink,
+            "8" => Brushes.Gray,
+            "9" => Brushes.Orange,
             _ => Brushes.Black
         };
 
         // 5.选择文本颜色
-        Console.WriteLine("请选择文本颜色(默认白色):1.黑色 2.红色 3.绿色 4.蓝色 5.白色");
+        Console.WriteLine("请选择文本颜色(默认白):1-黑 2-白 3-红 4-绿 5-蓝 6-黄 7-粉 8-灰 9-橙");
         input = Console.ReadLine();
         data.TextColor = input switch
         {
             "1" => Brushes.Black,
-            "2" => Brushes.Red,
-            "3" => Brushes.Green,
-            "4" => Brushes.Blue,
-            "5" => Brushes.White,
+            "2" => Brushes.White,
+            "3" => Brushes.Red,
+            "4" => Brushes.Green,
+            "5" => Brushes.Blue,
+            "6" => Brushes.Yellow,
+            "7" => Brushes.Pink,
+            "8" => Brushes.Gray,
+            "9" => Brushes.Orange,
             _ => Brushes.White
         };
 
@@ -71,8 +114,7 @@ public class Program
         input = Console.ReadLine();
         data.Text = string.IsNullOrWhiteSpace(input) ? "测试图标" : input;
 
-        // 7.生成png
-        SpawnPng.PngGenerator(data);
+        return data;
     }
 }
 
@@ -94,8 +136,8 @@ public struct PngData
 /// </summary>
 public class SpawnPng
 {
-    public const string FONT = "微软雅黑";               // 字体
-    public const int FONT_SIZE = 20;                    // 字体大小
+    public const string FONT = "宋体";                  // 字体
+    public const int FONT_SIZE = 20;                    // 默认字体大小
     public const string PATH = "D:/Cache/TempIcon/";    // 生成路径
 
     public static void PngGenerator(PngData data)
@@ -114,22 +156,27 @@ public class SpawnPng
             graphics.FillRectangle(data.BgColor, 0, 0, data.width, data.height);
         }
 
-        // 在居中的位置绘制文本
-        using Font font = new Font(FONT, FONT_SIZE);
+        // 在居中的位置绘制文本, 如果字体大小超出图片大小则缩小字体
+        Font font = new Font(FONT, FONT_SIZE);
         SizeF size = graphics.MeasureString(data.Text, font);
+        int i = 1;
+        while (size.Width > data.width || size.Height > data.height)
+        {
+            font.Dispose();
+            font = new Font(FONT, FONT_SIZE - i++);
+            size = graphics.MeasureString(data.Text, font);
+        }
         graphics.DrawString(data.Text, font, data.TextColor, (data.width - size.Width) / 2, (data.height - size.Height) / 2);
 
         // 如果目录不存在则创建目录
-        if (!System.IO.Directory.Exists(PATH))
+        if (!Directory.Exists(PATH))
         {
-            System.IO.Directory.CreateDirectory(PATH);
+            Directory.CreateDirectory(PATH);
         }
 
         // 保存图片
         bitmap.Save($"{PATH}{data.Text}.png", System.Drawing.Imaging.ImageFormat.Png);
         Console.WriteLine($"生成成功！保存路径：{PATH}{data.Text}.png");
-        Console.WriteLine("按任意键退出...");
-        Console.ReadKey();
     }
 }
 #pragma warning restore CA1416
